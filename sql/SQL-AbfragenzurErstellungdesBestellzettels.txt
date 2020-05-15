@@ -1,0 +1,333 @@
+
+
+Nach der Erstellung der FamilieneintrÃ¤ge als Grundlage der Personenzahl,
+erfolgt die Erstellung 
+eines 
+	- Wochenplan mit Nummerierung und Kalenderwoche, dieser enthÃ¤lt 5-7 Rezepte.
+	- Bestellzettel fÃ¼r die Kalenderwoche. 
+			Dieser enthÃ¤lt BestellzetteleintrÃ¤ge, die sich aus der Menge der eingesetzten Speisenkomponenten, sowie 
+			der Anzahl der Familienmitglieder ergeben.
+			Es ist darauf zu achten, dass die Ingredenzien nicht doppelt auftauchen, d.h. auch wenn es an 2 Tagen Kartoffeln gibt, so wird die Menge des ersten Eintrags erhÃ¶ht. ws
+			
+			
+			
+
+select distinct i.bezeichnung, m.bezeichnung, m.einheit from menge m, ingredienz i, rezeptteil rt, speisekomponente sk where rt.rezept_id=1 and sk.ingredienz_id=i.ingredienz_id and sk.speisekomponente_id=rt.rezeptteil_id and sk.menge_id=m.menge_id
+
+
+
+
+
+Ergebnis nicht korrekt
+
+aber so:
+select distinct i.bezeichnung, m.bezeichnung, m.einheit from menge m, ingredienz i, rezeptteil rt, speisekomponente sk where rt.rezept_id=1 and sk.ingredienz_id=i.ingredienz_id and sk.speisekomponente_id=rt.speisekomponente_id and sk.menge_id=m.menge_id and rt.aktiv=1
+
+
+
+sk.speisekomponente_id
+		in (select max(sk.speisekomponente_id) From speisekomponente group by initial_id )
+
+
+
+
+es muss die Versionierung mit berÃ¼cksichtigt werden:
+
+
+$query = 'select * from todo where id
+		in (select max(id) From todo group by initial_id ) 
+		and geloescht = 0 and sichtbar = 1 
+		and status != "erledigt"
+		order by id ::I1 Limit ::I2 ,::I3';
+
+$sql = "Select cn.n_id, cn.n_id_sha1 ,cn.n_vorname, cn.n_name, cms.mitglied_status, cms.* from club_nutzer AS cn, club_mitgliedschaft AS cms where cn.n_id=cms.nutzer_id And cms.m_parent_id = (select Max(m_parent_id) from club_mitgliedschaft AS cms2 where cn.n_id=cms2.nutzer_id order by cms2.m_parent_id DESC Limit 1)";
+		
+		
+		
+		
+SELECT * FROM `wochenplan` WHERE 1
+
+
+SELECT r.rezept_id, r.bezeichnung, r.beschreibung from rezept r, wochenplan w where r.rezept_id=w.rezept_id_mo; 
+
+
+
+
+INSERT INTO `speisekomponente` (`speisekomponente_id`, `initial_id`, `parent_id`, `menge_id`, `ingredienz_id`, `bezeichnung`, `beschreibung`, `eingetragen`, `zubereitungsart_id`, `speisekategorie_id`, `aktiv`, `loeschbar`) VALUES (NULL, '0', '0', '24', '15', 'Omelette', 'Das Omelette als kleine Speise', CURRENT_TIMESTAMP, '1', '8', '1', '0');
+
+SELECT mengen_id, bezeichnung, beschreibung from mengen;
+
+
+
+zeigeAlleRezepte:
+technisch können Rezepte angelegt werden, die keine Speisekomponenten enthalten... das muss nachgeholt werden!
+hier werden nur Rezepte gezeigt, die auch Speisekomponenten enthalten:
+
+SELECT rt.rezept_id as rid, rt.rezeptteil_id as rtid, rt.bezeichnung as rtb, rez.bezeichnung as rb FROM `rezeptteil` rt, rezept rez WHERE rt.rezept_id=rez.rezept_id group by rt.rezept_id
+
+
+[rezeptMo] => 3
+    [rezeptDi] => 5
+    [rezeptMi] => 20
+    [rezeptDo] => 6
+    [rezeptFr] => 19
+	
+replace into wochenplan set rezept_id_mo $rezeptMo
+
+
+Es sind zuerst alle rezeptbestandteile der Rezepte von Montag bis Freitag zu ermitteln
+gegeben ist der Wochenplan -> die id z.B: 1 
+
+SELECT r.rezept_id, r.bezeichnung, r.beschreibung from rezept r, wochenplan w where r.rezept_id=w.rezept_id_mo and w.wochenplan_id=1
+
+Wir ermitteln die dazugehörigen rezept_id
+
+
+SELECT rt.rezept_id as rid, rt.rezeptteil_id as rtid, rt.bezeichnung as rtb, rez.bezeichnung as rb 
+
+FROM 
+`rezeptteil` rt, 
+rezept rez 
+WHERE rt.rezept_id=rez.rezept_id group by rt.rezept_id
+
+
+
+
+
+/***********************
+ alle Speisekomponenten mit Bezeichnung und Menge
+***********************/
+
+SELECT sk.speisekomponente_id, sk.bezeichnung as skb, m.bezeichnung as mb, m.einheit as me, z.zubereitungsart_bezeichnung as zb 
+
+FROM 
+`speisekomponente` sk, 
+`menge` m, 
+zubereitungsart z,
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and z.zubereitungsart_id= sk.zubereitungsart_id 
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_mo=rez.rezept_id
+and wp.wochenplan_id=1
+order By sk.bezeichnung asc
+
+
+SELECT sk.speisekomponente_id, sk.bezeichnung as skb, m.bezeichnung as mb, m.einheit as me, z.zubereitungsart_bezeichnung as zb 
+
+FROM 
+`speisekomponente` sk, 
+`menge` m, 
+zubereitungsart z,
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and z.zubereitungsart_id= sk.zubereitungsart_id 
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_di=rez.rezept_id
+and wp.wochenplan_id=1
+order By sk.bezeichnung asc
+
+
+
+SELECT sk.speisekomponente_id, sk.bezeichnung as skb, m.bezeichnung as mb, m.einheit as me, z.zubereitungsart_bezeichnung as zb 
+
+FROM 
+`speisekomponente` sk, 
+`menge` m, 
+zubereitungsart z,
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and z.zubereitungsart_id= sk.zubereitungsart_id 
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_mi=rez.rezept_id
+and wp.wochenplan_id=1
+order By sk.bezeichnung asc
+
+
+
+SELECT sk.speisekomponente_id, sk.bezeichnung as skb, m.bezeichnung as mb, m.einheit as me, z.zubereitungsart_bezeichnung as zb 
+
+FROM 
+`speisekomponente` sk, 
+`menge` m, 
+zubereitungsart z,
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and z.zubereitungsart_id= sk.zubereitungsart_id 
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_do=rez.rezept_id
+and wp.wochenplan_id=1
+order By sk.bezeichnung asc
+
+
+SELECT sk.speisekomponente_id, sk.bezeichnung as skb, m.bezeichnung as mb, m.einheit as me, z.zubereitungsart_bezeichnung as zb 
+FROM 
+`speisekomponente` sk, 
+`menge` m, 
+zubereitungsart z,
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and z.zubereitungsart_id= sk.zubereitungsart_id 
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_fr=rez.rezept_id
+
+and wp.wochenplan_id=1
+order By sk.bezeichnung asc
+
+============================
+
+SELECT i.bezeichnung,   m.bezeichnung as mb, m.einheit as me, z.zubereitungsart_bezeichnung as zb 
+FROM 
+ingredienz i,
+`speisekomponente` sk, 
+`menge` m, 
+zubereitungsart z,
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and z.zubereitungsart_id= sk.zubereitungsart_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_fr=rez.rezept_id
+and wp.rezept_id_do=rez.rezept_id
+
+and wp.wochenplan_id=1
+order By sk.bezeichnung asc
+
+---
+
+SELECT i.bezeichnung as ibez,   m.bezeichnung as mb, m.einheit as me 
+FROM 
+ingredienz i,
+`speisekomponente` sk, 
+`menge` m, 
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and wp.rezept_id_fr=rez.rezept_id
+and wp.rezept_id_mo=rez.rezept_id
+and wp.wochenplan_id=1
+order By i.bezeichnung asc
+
+
+
+----
+
+Das sieht schonmal gut aus!
+
+SELECT i.bezeichnung as ibez,   m.bezeichnung as mb, m.einheit as me 
+FROM 
+ingredienz i,
+`speisekomponente` sk, 
+`menge` m, 
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and rt.aktiv=1
+and wp.rezept_id_mo=rez.rezept_id
+and wp.wochenplan_id=1
+order By i.bezeichnung asc
+
+===
+
+zusammenfassen der Ingredenzien aller Rezepte
+
+SELECT i.bezeichnung as ibez,   m.bezeichnung as mb, m.einheit as me 
+FROM 
+ingredienz i,
+`speisekomponente` sk, 
+`menge` m, 
+`rezeptteil` rt, 
+rezept rez, 
+wochenplan wp
+WHERE 
+( m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and rt.aktiv=1
+and wp.rezept_id_mo=rez.rezept_id
+and wp.wochenplan_id=1)
+or 
+( m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and rt.aktiv=1
+and wp.rezept_id_di=rez.rezept_id
+and wp.wochenplan_id=1)
+or 
+( m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and rt.aktiv=1
+and wp.rezept_id_mi=rez.rezept_id
+and wp.wochenplan_id=1)
+or 
+( m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and rt.aktiv=1
+and wp.rezept_id_do=rez.rezept_id
+and wp.wochenplan_id=1)
+or 
+( m.menge_id=sk.menge_id 
+and i.ingredienz_id = sk.ingredienz_id
+and rt.speisekomponente_id=sk.speisekomponente_id
+and rt.rezept_id=rez.rezept_id
+and rt.aktiv=1
+and wp.rezept_id_fr=rez.rezept_id
+and wp.wochenplan_id=1)
+order By i.bezeichnung asc;
+
+
+#################
+es fehlt noch das Zusammenfassen der Mengen aller beteiligten Ingredenzien 
+sowie eine Berechnung der notwendigen Mengen durch Multiplikation mit den 
+Haushaltsangehörigen der Familien.
+
+Ich bin nicht sicher, ob man das über SQL realisieren kann, aber es reizt schon die Herausforderung.
+
+#################
+
+
+
+
+
+
+		

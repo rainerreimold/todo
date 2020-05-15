@@ -1,0 +1,20 @@
+RewriteEngine on
+RewriteBase /todo
+
+RewriteRule ^(.*).css$ $1.css [QSA,L]
+RewriteRule ^(.*).js$ $1.js [QSA,L]
+RewriteRule ^(.*).gif$ $1.gif [QSA,L]
+RewriteRule ^(.*).jpg$ $1.jpg [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# solange die css und js eingebunden werden und Smarty nicht verwendet wird 
+#RewriteRule ^([^/]+).js jscripts/$1.js
+#RewriteRule ^([^/]+).css $1.css
+
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+) controller.php?controller=$1&action=$2&id=$3&von=$4&lim=$5&order=$6 [QSA,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+) controller.php?controller=$1&action=$2&id=$3&von=$4&lim=$5[QSA,L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+) controller.php?controller=$1&action=$2&id=$3&von=$4 [QSA,L]
+RewriteRule ^([a-z/]+)/([^/]+)/([^/]+) controller.php?controller=$1&action=$2&id=$3 [QSA,L]
+RewriteRule ^([a-z/]+)/([^/]+) controller.php?controller=$1&action=$2 [QSA,L]
+RewriteRule ^([a-z]+) controller.php?controller=$1 [QSA,L]

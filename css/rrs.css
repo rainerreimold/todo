@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+/**
+	rrs.css um zentrale Ausgaben einheitlich zu gestalten.
+*/
+
+
+/**
+
+Ausgabe der Dump Fehlerhinweise
+
+*/
+.mittig {
+width:100%;
+text-align:center;
+}
+
+.dumpbox {
+	background-color: lightblue;
+	border: grey 6px solid;
+	padding: 6px;
+	color: black;
+	width: 55%;
+	font-family: Verdana;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 14px auto 4px 200px;
+}
+
+
+/**
+
+Ausgabe der Dump Fehlerhinweise
+
+*/ 
+
+.fehlerbox {
+	background-color: red;
+	border: black 6px solid;
+	padding: 6px;
+	color: white;
+	width: 55%;
+	font-family: Verdana;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 14px auto 4px auto;
+}
+
+.hinweisbox {
+	background-color: green;
+	border: black 6px solid;
+	padding: 5px;
+	color: white;
+	width: 55%;
+	font-family: Verdana;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 14px auto 4px auto;
+}

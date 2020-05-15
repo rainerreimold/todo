@@ -1,0 +1,9 @@
+
+Alle Rezeptbestandteile mit Namen und Mengen.
+
+select i.bezeichnung, m.bezeichnung, m.einheit from menge m, ingredienz i, rezeptteil rt, rezept r, speisekomponente sk where rt.rezept_id=1 and sk.ingredienz_id=i.ingredienz_id and sk.speisekomponente_id=rt.rezeptteil_id and sk.menge_id=m.menge_id
+
+
+
+select i.bezeichnung, m.bezeichnung, m.einheit from menge m, ingredienz i, rezeptteil rt, rezept r, speisekomponente sk where rt.rezept_id=1 and sk.ingredienz_id=i.ingredienz_id and sk.speisekomponente_id=rt.rezeptteil_id and sk.menge_id=m.menge_id
+
