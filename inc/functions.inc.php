@@ -82,6 +82,45 @@ function getProjekt() {
 }
 
 
+// getLaufendeAktivitaetenNummer($id)
+
+function getLaufendeAktivitaetenNummer($id) {
+
+	try {
+
+		  $sql = "SELECT MAX(laufendeNummer) as mlfd   FROM `aktivitaetenliste` where projekt_id=".$id;
+        
+         // $sql = "Select Count(*) from liz_lizenz where produkt_id=".$id;
+
+          $db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+          $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+          $rueckgabe = $db->query($sql);
+
+          $ergebnis = $rueckgabe->fetchAll(PDO::FETCH_ASSOC);
+
+          //echo 
+          //echo "<br>";
+          $db=null;
+               
+          
+          //return $ergebnis[0]['Count(*)'];
+		  return $ergebnis[0]['mlfd'];
+    }
+
+    catch(PDOException $e){
+        print $e->getMessage();
+    }
+    return -1;
+    
+    
+}
+
+
+
+
+
+
 
 function getThema() {
 

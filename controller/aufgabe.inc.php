@@ -65,12 +65,15 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 		//$order = isset($_GET['order'])?$_GET['order']:'desc';
 		$gegenorder = $order=='desc'?'asc':'desc';
 
-
+		$anzahl = 0;
   
        	try {
 		
         
-        $sql = "SELECT `tid_md5`, `titel`, `erklaerung`, `ziel`, `wunsch`, angelegt, sichtbar, geloescht FROM `todo` order by angelegt asc Limit ".$von. ", ". $lim;
+        $sql = "SELECT `tid_md5`, `titel`, `erklaerung`, `ziel`, `wunsch`, angelegt, sichtbar, geloescht FROM `todo` where id
+		in (select max(id) From todo group by initial_id ) 
+		and geloescht = 0 and sichtbar = 1 
+		and status != 'erledigt' order by angelegt desc Limit ".$von. ", ". $lim;
 		
 		if (DEBUG) echo "<br>".$sql."<br>";
        
@@ -101,13 +104,13 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	            
 	            echo "<tr style=\"border:1px dotted black;\"><td style=\"background:lightgrey;a color:orange;width:350px;padding:6px;\" class=\"odd\">";
 	            
-	            echo "<a href=\"/details/$aufgabe_id\">".$inhalt['titel']."</a>";
+	            echo "<a href=\"details/$aufgabe_id\">".$inhalt['titel']."</a>";
 	            
 	 
            
                 //&nbsp;&nbsp;&nbsp;<small><small><em style=\"color:red;\">(<a href=\"details/".$domain_id."\">bearbeiten</a>)</em></small></small>";
 	            echo "</td><td style=\"background:lightgrey;a color:orange;width:50px;padding:6px;\" class=\"odd\"> ";
-				echo "<a href=\"/details/$aufgabe_id\">".$inhalt['angelegt']."</a>";
+				echo "<a href=\"details/$aufgabe_id\">".$inhalt['angelegt']."</a>";
 	            echo "<br></td>";
 				//echo "<td style=\"background:lightgrey;a color:orange;width:50px;padding:6px;\" class=\"odd\"> ";
 			    //echo  $inhalt['zb'];
@@ -126,12 +129,8 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 
 				echo "</tr>";
 	        }
-	        
-	    }
-	    catch(PDOException $e){
-	        print $e->getMessage();
-	    }
-	    echo "</table>";
+	   
+		 echo "</table>";
 	    $db=null;
 		
 		echo "<br><br>";
@@ -149,6 +148,12 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 			echo '<a href="'.PFAD.'/'.APPNAME.'/todo/zeigeAlleAufgaben/'.$vor.'/'.$lim.'">>></a>';
 			echo '</b></center>';
 		}
+     
+	    }
+	    catch(PDOException $e){
+	        print $e->getMessage();
+	    }
+	   
 
 
 
@@ -175,9 +180,160 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	*****************************************/
 
 	else if ( $action == 'details') {
-       
+     
+
+ 		 $todo_id=$id;
+
+   		 include 'inc/header.php';
+
+		 try {
+		 
+		$sql = "select id, titel, erklaerung, ziel, wunsch, thema, initial_id, parent_id, angelegt, user_id, status
+				from todo 
+				where tid_md5 = '".$todo_id."'";
+
+
+		if (DEBUG) echo "<br>".$sql."<br>";
+    
+	 
+          $db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+          $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+          $rueckgabe = $db->query($sql);
+          
+		  $ergebnis = $rueckgabe->fetchAll(PDO::FETCH_ASSOC);
+	       
+		  //$id =	$ergebnis[0]['id'];
+		  $initial_id =	$ergebnis[0]['initial_id'];
+
+		  //$parent_id =	$ergebnis[0]['parent_id']; 
+		  // für die Versionierung muss die aktuelle id zur parent_id werden
+		  $parent_id =	$ergebnis[0]['id']; 	
+		  $headline = $ergebnis[0]['titel'];
+		  $erklaerung = $ergebnis[0]['erklaerung'];
+ 		  $ziel = $ergebnis[0]['ziel'];
+		  $wunsch = $ergebnis[0]['wunsch'];
+		  $angelegt = $ergebnis[0]['angelegt'];	
+		  $user_id = $ergebnis[0]['user_id'];
+		  $status = $ergebnis[0]['status'];
+
+		  echo '<h1 style="background: darkslategray; color:white;
+	             padding:20px; padding-left:120px; bottom:1px black solid;">zu erledigen - todo</h1>';
+          echo '<div class="form" style="width:1050px; text-align:right; padding:10px; margin:10px auto auto auto;">
+
+          <form method="post" action="../eintragen" style="width:1000px; padding:10px; margin:10px;" class="artikelform">
+           <input type="hidden" name="tid" value="'.$todo_id.'">
+		   <input type="hidden" name="initial_id" value="'.$initial_id.'">
+		   <input type="hidden" name="parent_id" value="'.$parent_id.'">
+		   <fieldset style="background:#cfcfcf; width:950px; text-align:right; padding:10px; margin-right:10px;">
+           <legend>ToDo Details</legend>';       
+
+         echo '<label>&Uuml;berschrift: </label><input class="textform eyecatch" type="text" class="textform" name="headline" value="'.$headline.'" required /><br>';
+/*        
+`titel` varchar(250) DEFAULT '',
+  `erklaerung` text,
+  `ziel` text,
+  `wunsch` text,
+*/
+      
+        echo '<label>Erkl&auml;rung: </label>'."<br>";	
+		echo "<textarea id='erklaerung' name='erklaerung'>".$erklaerung."</textarea>";
+			
+  		echo '<label>Ziel: </label>'."<br>";
+	    echo "<textarea id='ziel' name='ziel'>".$ziel."</textarea>";
+
+		echo '<label>Wunsch: </label>'."<br>";
+	    echo "<textarea id='wunsch' name='wunsch'>".$wunsch."</textarea>";		
+
+
+		echo "<br>";
+		       
+         echo '<label>Projekt: </label>';
+		  $ProjektSelect="\n<select class=\"produktform\" name=\"projekt\" size=\"1\">\n";
+          $ProjektSelect.=getProjekt()."\n";
+          $ProjektSelect.="</select>\n";
+			
+		  echo $ProjektSelect;
+		  echo "<br>";
+
+		  echo '<label>Projektart: </label>';
+		  $ProjektArtSelect="\n<select class=\"produktform\" name=\"projektart\" size=\"1\">\n";
+          $ProjektArtSelect.=getProjektArt()."\n";
+          $ProjektArtSelect.="</select>\n";
+			
+		  echo $ProjektArtSelect;
+		  echo "<br>";
+  	    
+		 echo '<label>Thema: </label>'; //echo '<input class="textform2" type="text" name="thema" placeholder="Thema" required /><br>';
+
+ 		  $ThemaSelect="\n<select class=\"produktform\" name=\"thema\" size=\"1\">\n";
+          $ThemaSelect.=getThema()."\n";
+          $ThemaSelect.="</select>\n";
+			
+		  echo $ThemaSelect;
+		  echo "<br>";
+
+        echo '<label>Tags: </label><input class="textform2" type="text" name="tags" placeholder="Tag1, Tag2, Tag3" required /><br>';
+        echo "<br>";
+			
+		echo '<label>Priorit&auml;t: </label>';
+
+		$PrioritaetSelect="\n<select class=\"produktform\" name=\"prioritaet\" size=\"1\">\n";
+        $PrioritaetSelect.="<option value=\"5\">gelegentlich</option>\n";
+		$PrioritaetSelect.="<option value=\"4\">gering</option>\n";
+		$PrioritaetSelect.="<option value=\"3\" selected>mittel</option>\n";
+		$PrioritaetSelect.="<option value=\"2\">hoch</option>\n";
+		$PrioritaetSelect.="<option value=\"1\">sehr hoch</option>\n";
+				//getAlleDomains()."\n";
+        $PrioritaetSelect.="</select>\n";
+			
+		echo $PrioritaetSelect;
+
+		echo '</fieldset>';
+        echo "<br>\n";
+                echo '<fieldset style="background:#cfcfcf; text-align:right; padding:10px; margin-right:10px;">
+              <button type="reset">Eingaben l&ouml;schen</button>
+              <button type="submit">Absenden</button>
+            </fieldset>
+          </form>
+       </div>
+       <br>
+       <br>
+       <br>
+       <br>';
+		
+   	echo '<script type="text/javascript">';
+   	echo "	CKEDITOR.replace('erklaerung');";
+    echo "	CKEDITOR.replace('ziel');";
+	echo "	CKEDITOR.replace('wunsch');";
+	echo " </script>";
+
+ }
+	    catch(PDOException $e){
+	        print $e->getMessage();
+	    }
+	    echo "</table>";
+	    $db=null;
+	    
+      
+      
+
+		if (DEBUG) {
+			echo "<br /><br />action= $action<br /><br />";
+			echo "<br /><br />id= $id<br /><br />";
+		}
+
+
+
+
+		include 'inc/footer.php';
+	}
+
+
+
   
-    }
+  
+    
 	
 	
 	else if ( $action == 'anlegen') {
@@ -186,12 +342,12 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	
 
 		 echo '<h1 style="background: darkslategray; color:white;
-	             padding:20px; padding-left:120px; bottom:1px black solid;">Ereignis</h1>';
+	             padding:20px; padding-left:120px; bottom:1px black solid;">zu erledigen - todo</h1>';
          echo '<div class="form" style="width:1050px; text-align:right; padding:10px; margin:10px auto auto auto;">
 
          <form method="post" action="eintragen" style="width:1000px; padding:10px; margin:10px;" class="artikelform">
            <fieldset style="background:#cfcfcf; width:950px; text-align:right; padding:10px; margin-right:10px;">
-           <legend>Ereignis erfassen</legend>';       
+           <legend>ToDo erfassen</legend>';       
 
          echo '<label>&Uuml;berschrift: </label><input class="textform eyecatch" type="text" class="textform" name="headline" placeholder="&Uuml;berschrift" required /><br>';
 /*        
@@ -332,6 +488,9 @@ CREATE TABLE `todo` (
 	 $thema       	= $_POST['thema']; 
      $tags       	= $_POST['tags'];     
 
+	 $initial_id = isset($_POST['initial_id'])?$_POST['initial_id']:null;
+	 $parent_id = isset($_POST['parent_id'])?$_POST['parent_id']:null;
+	 $todo_id = isset($_POST['tid'])?:null;
 
 
 	/*     echo '<pre>';
@@ -346,31 +505,48 @@ CREATE TABLE `todo` (
           try {
 
                     
-              
+          	if (!todo_id) {    
    
-   	      $sql = "replace into todo set titel='".$headline."', erklaerung = '".$erklaerung."', ziel = '".$ziel."', wunsch = '".$wunsch."',
-			 thema = ".$thema.", initial_id=0, parent_id=0, angelegt=NOW(), user_id=1, status='unerledigt'";
+   	      		$sql = "replace into todo set titel='".$headline."', erklaerung = '".$erklaerung."', ziel = '".$ziel."', wunsch = '".$wunsch."',
+			 	thema = ".$thema.", initial_id=0, parent_id=0, angelegt=NOW(), user_id=1, status='unerledigt'";
 
-		  if (DEBUG) {
-          	print $sql."<br>";
-		  	die();
-          }
+				$sql2 = "update todo set initial_id=id, tid_md5=md5(id) order by id desc Limit 1;"; 
+		  	}
+			else {
+
+				$sql = "replace into todo set titel='".$headline."', erklaerung = '".$erklaerung."', ziel = '".$ziel."', wunsch = '".$wunsch."',
+			 	thema = ".$thema.", initial_id=".$initial_id.", parent_id=".$parent_id.", angelegt=NOW(), user_id=1, status='unerledigt'";
+
+				$sql2 = "update todo set tid_md5=md5(id) order by id desc Limit 1;"; 
+
+
+			}
+
+		  		if (DEBUG) {
+          			print $sql."<br>";
+		  			die();
+          		}
 		  
-	      $db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
-          $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          $db->beginTransaction();
+	     		$db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+          		$db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          		$db->beginTransaction();
 
-		  print $sql."<br>";
+		  		print $sql."<br>";
 
-		  $db->query($sql);
+		  		$db->query($sql);
 		
-          $sql = "update todo set initial_id=id, tid_md5=md5(id) order by id desc Limit 1;"; 
-		  $db->query($sql);
-		  print $sql."<br>";
+          		//$sql = "update todo set initial_id=id, tid_md5=md5(id) order by id desc Limit 1;"; 
+		  		
 
-		  // Transaktion abschliessen	
-		  $db->commit();	
-          $db=null;
+				
+
+
+				$db->query($sql2);
+		  		print $sql."<br>";
+
+		  		// Transaktion abschliessen	
+		  		$db->commit();	
+          		$db=null;
 		  //print "<strong>hier</strong>";	
           }
           catch(PDOException $e){

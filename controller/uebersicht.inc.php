@@ -76,7 +76,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
       echo '<a href="hersteller/anlegen"></a>';
       echo "<br>";
      
-      echo "<br><h3>Lösungen</h3>";
+      echo "<br><h3>L&ouml;sungen</h3>";
 	 /* echo "Damit eine Ingredienz Teil eines Rezeptes werden kann,<br>";
 	  echo "muss sie zuerst eine Speisekomponente werden.<br><br>";
    */
@@ -96,15 +96,24 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
       echo '<a href="nutzer/liesNutzerDatei">Nutzer importieren</a>';
       echo "<br>";
       echo "<br>";
-       * /
+       */
       echo '</div>';
       
       echo '<div class="spalte">';
       
-      echo "<h3>Rezepte</h3>";
+      echo "<h3>Projektplanung</h3>";
       
-      echo '<a href="rezept/zeigeAlleRezepte">zeige alle Rezepte</a>';
+      
+	  echo '<a href="projektplanung/zeigeAlleProjektPlanungen">zeige alle ProjektPlanungen</a>';
       echo "<br>";
+      
+	  echo '<a href="projektplanung/anlegen">Lege an ProjektPlanung</a>';
+      echo "<br>";
+      
+
+      echo '<a href="projekt/zeigeAlleProjekte">zeige alle Projekte</a>';
+      echo "<br>";
+/*
       echo '<a href="rezept/anlegen">Rezept anlegen</a>';  
       echo "<br>";
 	  / * echo '<a href="rezeptbestandteil/zeigeAlleRezepte">zeige alle Rezeptbestanteile</a>';
