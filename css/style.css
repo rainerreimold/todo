@@ -31,7 +31,7 @@ h1,h2,h3,h4{
 }
 h1
 {
-  font-size: 48px;
+   font-size: 48px;
    color:black;
    font-weight:700;
 }
@@ -100,7 +100,8 @@ p{
 }
 
 .form {
-	width:750px; 
+	width:80%;
+	border-radius:15px; 
 	text-align:center; 
 	padding:10px auto auto auto; 
 	margin:10px auto auto auto;
@@ -121,7 +122,7 @@ p{
 	
 	
 .textform{
-	width:400px;
+	width:90%;
     padding:5px;
     margin:10px;
     font-family:Lato+sans;
@@ -229,7 +230,9 @@ Ausgabe der Dump Fehlerhinweise
 .block {
 	margin:30px 0 30px 0;
 	padding:20px;
+	padding:5px;
 	background-color:lightyellow;
+	text-align:left;
 	border-bottom: 4px solid orange;
 	border-top:  4px solid  orange;
     text-decoration-style:wavy;
@@ -243,7 +246,7 @@ Ausgabe der Dump Fehlerhinweise
 	font-weight:bold;
 	margin:30px 0 30px 0;
 	padding:30px;
-	background-color:#fafafa;
+	background-color:silver;
 	color:black;
 	border-bottom: 1px solid black;
 	border-top:  1px solid  black; 
@@ -286,10 +289,10 @@ Ausgabe der Dump Fehlerhinweise
 
 .produktform {
 
-    background:#cfe5cf; 
+    background:#408080; 
     background-image: linear-gradient(transparent, white);
     background-repeat: repeat;
-    width:600px; 
+    width:800px; 
     text-align:right; 
     padding:10px; 
     margin-right:10px; 
@@ -297,7 +300,18 @@ Ausgabe der Dump Fehlerhinweise
 
 }
 
+.produktform3 {
 
+    background:#cfe5cf; 
+    background-image: linear-gradient(transparent, #cfcfe5);
+    background-repeat: repeat;
+    min-width:600px; 
+    text-align:right; 
+    padding:10px; 
+    margin-right:10px; 
+    border:1px grey dotted;
+
+}
 
 
 
@@ -475,8 +489,15 @@ nav label:active { background: #ffffff; }
 }
 
 */
-
-
+/*
+ Textzeile, die sehr klein dargestellt wird. z.B: Datum und Uhrzeit für angelegt.
+ 
+*/
+.tiny {
+	font-size:0.5em;
+	color:#a80000;
+	text-align:left;
+}
 
 
 

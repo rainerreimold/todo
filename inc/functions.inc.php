@@ -42,10 +42,10 @@ function getProjektArt() {
     
 }
 
-function getProjekt() {
+function getProjekt( $pid = '0') {
 
 	try {
-
+		
 		$sql = "SELECT `projekt_id`, `erlaeuterung`, `name`, `kuerzel`   FROM `projekt` where loeschbar=0 and sichtbar=1 order by name asc";
         
         $db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
@@ -62,9 +62,11 @@ function getProjekt() {
 		  foreach ( $ergebnis as $inhalt) {
 				
 			++$i;
-
-			$ret=$ret."<option value=\"".$inhalt['projekt_id']."\" title=\"".$inhalt['erlaeuterung']."\">".$inhalt['name']." - ".$inhalt['kuerzel']." </option>\n";
-
+			if ($pid==$inhalt['projekt_id']){
+				$ret=$ret."<option selected value=\"".$inhalt['projekt_id']."\" title=\"".$inhalt['erlaeuterung']."\">".$inhalt['name']." - ".$inhalt['kuerzel']." </option>\n";
+			} else {
+				$ret=$ret."<option value=\"".$inhalt['projekt_id']."\" title=\"".$inhalt['erlaeuterung']."\">".$inhalt['name']." - ".$inhalt['kuerzel']." </option>\n";
+			}
 
 		  }
 		  return $ret;        

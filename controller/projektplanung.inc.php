@@ -195,6 +195,7 @@ ermittle, ob schon Aktivität vorhanden ist, lies die laufende Nummer und inkreme
 
 	// die Projekt_id wird als PArameter mit übergeben.
 	// es wird die letzte laufende Nummer der Aktivitätenliste benötigt
+
 	else if ( $action == 'anlegen') {
 
 		 include 'inc/header.php';

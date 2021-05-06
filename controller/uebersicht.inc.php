@@ -4,7 +4,7 @@ session_start();
 //require_once 'inc/classDBInformation.php';
 
 require_once './inc/global_config.inc.php';
-
+require_once './class/Zaehler.class.php';
 
 
 
@@ -19,6 +19,10 @@ if ($Ergebnis){
 	$_SESSION['Eintrag']=null;
 }
 
+
+// Zugriff auf die Übersichtsseite
+$oZaehler=new Zaehler();
+$oZaehler->addCount('uebersicht');
 
 
 
@@ -69,7 +73,10 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 
 	  echo '<div class="table">';
       echo '<div class="spalte" tyle="backcolor:darksalmon;">';
-      echo '<h3>Aufgaben</h3><a href="aufgabe/zeigeAlleAufgaben">zeige alle Aufgaben</a>';
+      echo '<h3>Aufgaben</h3>';
+	  echo '<a href="aufgabe/zeigeAlleOffenenAufgaben">zeige alle Aufgaben</a>';
+      echo "<br>";
+	  echo '<a href="aufgabe/zeigeAlleAufgaben">zeige alle - auch gel&ouml;schte- Aufgaben</a>';
       echo "<br>";
       echo '<a href="aufgabe/anlegen">Aufgabe anlegen</a>';
       echo "<br>";
@@ -101,6 +108,11 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
       
       echo '<div class="spalte">';
       
+	  echo "<h3>Projekt</h3>";
+	  echo '<a href="projekt/zeigeAlleProjekte">zeige alle Projekte</a>';
+      echo "<br>";
+      echo "<br>";
+
       echo "<h3>Projektplanung</h3>";
       
       
@@ -113,6 +125,23 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 
       echo '<a href="projekt/zeigeAlleProjekte">zeige alle Projekte</a>';
       echo "<br>";
+ 	  echo "<br>";
+
+
+	  echo "<h3>Ideen</h3>";
+      
+      
+	  echo '<a href="idee/zeigeAlleIdeen">zeige alle Ideen</a>';
+      echo "<br>";
+      
+	  echo '<a href="idee/anlegen">Erfasse eine Idee</a>';
+      echo "<br>";
+      
+
+     /* echo '<a href="projekt/zeigeAlleProjekte">zeige alle Projekte</a>';
+      echo "<br>";*/
+
+
 /*
       echo '<a href="rezept/anlegen">Rezept anlegen</a>';  
       echo "<br>";

@@ -58,6 +58,11 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 		
 		Es ist die Frage, ob man die Tabellen abgleicht oder die Anwendung über eine Datenbank hinweg betreibt,
 		R.Reimold
+
+
+		Das Anlegen von Projekten sollte wesentlich vereinfacht werden. 
+		Überdies muss ein Projekt auch deaktiviert und reaktivierbar sein.
+
 	**/
 
 
@@ -91,7 +96,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	        echo '<tr style="padding:8px;"><th colspan=3 style="font-family: Fira ;color:#ddd">Projektplanung</th></tr>';
 	        echo "<tr  style=\"padding:8px;\">
 
-			<td style=\"background:darkgrey;a color:orange;width:350px;\" class=\"odd\">Projekt</td>
+			<td style=\"background:darkgrey;a color:orange;width:250px;\" class=\"odd\">Projekt</td>
 		    <td style=\"background:darkgrey;a color:orange;width:80px;\" class=\"odd\">K&uuml;rzel</td>
             <td style=\"background:darkgrey;a color:orange;width:350px;\" class=\"odd\">Erl&auml;uterung</td>
 			<td style=\"background:darkgrey;a color:orange;width:20px;\" class=\"odd\">Beginn</td>
@@ -102,27 +107,39 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	            //$projekt_id=$inhalt['projekt_id'];
 	            $projekt_id=$inhalt['pid_md5'];
 				
-	            echo "<tr style=\"border:1px dotted black;\"><td style=\"background:lightgrey;a color:orange;width:350px;padding:6px;\" class=\"odd\">";
+	            echo "<tr style=\"border:1px dotted black;\"><td style=\"background:lightgrey;a color:orange;width:250px;padding:6px;\" class=\"odd\">";
 	            
 	            echo "<a href=\"../projektplanung/zeigeprojektplanung/$projekt_id\" title=\"".$inhalt['erlaeuterung']."\">".$inhalt['name']."</a>";
 	            
 	 
            
                 //&nbsp;&nbsp;&nbsp;<small><small><em style=\"color:red;\">(<a href=\"details/".$projekt_id."\">bearbeiten</a>)</em></small></small>";
-	            echo "</td><td style=\"background:lightgrey;a color:orange;width:50px;padding:6px;\" class=\"odd\"> ";
+	            echo "</td>
+			    <td style=\"background:lightgrey;a color:orange;width:50px;padding:6px;\" class=\"odd\"> ";
 				echo "<a href=\"details/$projekt_id\" title=\"".$inhalt['erlaeuterung']."\">".$inhalt['kuerzel']."</a>";
 	            echo "<br></td>";
-				echo "<td style=\"background:lightgrey;a color:orange;width:50px;padding:6px;\" class=\"odd\"> ";
-			    echo  $inhalt['beginn'];
+
+				echo "<td style=\"background:lightgrey;a color:orange;width:350px;padding:6px;\" class=\"odd\">";	            
+	            //echo "<small><small><a href=\"../projektplanung/zeigeprojektplanung/$projekt_id\" title=\"".$inhalt['name']."\">".$inhalt['erlaeuterung']."</a></small></small>";
+				echo "<small><small>".$inhalt['erlaeuterung']."</small></small>";
+				
 				echo "</td>";
+
 				echo "<td style=\"background:lightgrey;a color:orange;width:50px;padding:6px;\" class=\"odd\"> ";
-			     echo  $inhalt['status'];
+			    echo  "<small><small></small>".$inhalt['beginn']."</small></small></small>";
 				echo "</td>";
-/*
-				$color = $inhalt['aktiv'] == 1?'green':'red';
+				
+				$color = $inhalt['status'] == 'aktiv'?'#c3cc2b':'#c29292';
+			    echo "<td style=\"background:".$color.";a::link,a::hover { text-decoration: none; color: white; };width:50px;\" class=\"tdhersteller\">";
+			    echo  "<small><a href=\"aktiv/".$projekt_id."\">".$inhalt['status']."</a></small>";
+				echo "</td>";
+
+		/*
+				$color = $inhalt['aktiv'] == 1?'#d3db2b':'red';
              	echo "<td style=\"background:".$color.";a::link,a::hover { text-decoration: none; color: white; };width:50px;\" class=\"tdhersteller\">";
              	echo "<small><a href=\"aktiv/".$projekt_id."\">AK</a></small>";
              	echo "</td>";
+
              
             	 $color = $inhalt['loeschbar'] == 0?'green':'red';
              	echo "<td style=\"background:".$color.";a::link,a::hover { text-decoration: none; color: white; };width:50px;\" class=\"tdhersteller\">";
@@ -167,7 +184,12 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
   
     }
 	
+	/***************************************
+
+
 	
+	*****************************************/
+
 	else if ( $action == 'anlegen') {
 
 		 include 'inc/header.php';
@@ -175,7 +197,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 
 		 echo '<h1 style="background:darkslategray; color:black;
 	             padding:20px; padding-left:120px; bottom:1px black solid;">Projektplanung</h1>';
-         echo '<div class="form" style="width:1050px; text-align:right; padding:10px; margin:10px auto auto auto;">
+         echo '<div class="form" style="width:1050px; text-align:right; padding:10px; margin:10px auto auto auto;border-radius:15px;">
 
          <form method="post" action="eintragen" style="width:1000px; padding:10px; margin:10px;" class="artikelform">
            <fieldset style="background:#cfcfcf; width:950px; text-align:right; padding:10px; margin-right:10px;">
@@ -189,7 +211,33 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
   `wunsch` text,
 */
       
-         echo '<label>Erkl&auml;rung: </label>'."<br>";
+        echo '<h1>Geben Sie hier den Namen des Projektes ein</h1>
+		
+		<div style="width: 80%; margin-top: 150px;">
+		<div style="width: 80%; text-align: right;">Projektname: <input
+		style="width: 250px;" type="text" name="projektname"></div>
+		<div style="width: 80%; text-align: right; vertical-align: top;">
+			Erl&auml;uterung: <textarea name="erlaeuterung" style="width: 246px;"
+			rows="7"></textarea></div>
+		<div style="width: 80%; text-align: right;">Projektstart: <input
+	style="width: 250px;" type="text" name="startdatum" value="';
+ 
+	echo date("Y-m-d", time());
+    echo '"></div>
+    <div style="width: 80%; text-align: right;">Deadline: <input
+	style="width: 250px;" type="text" name="deadline" value="';
+    echo date("Y-m-d", time()+3600*24*14);
+	echo '"></div>
+    </div>
+
+	<div style="width: 80%; text-align: right;">Anzahl Programmierer: <input
+		style="width: 250px;" type="text" name="anzahlprogrammierer" value="1"></div>
+	<div style="width: 80%; text-align: right;"><input type="submit"
+	value="hinzuf&uuml;gen"></div>
+	</div>';
+
+/*
+		 echo '<label>Erkl&auml;rung: </label>'."<br>";
 	     echo "<textarea id='erklaerung' name='erklaerung'></textarea>";
 			
   			echo '<label>Ziel: </label>'."<br>";
@@ -198,7 +246,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 		echo '<label>Wunsch: </label>'."<br>";
 	     echo "<textarea id='wunsch' name='wunsch'></textarea>";		
 
-
+*/
 		// Das können wir als Selectfeld machen  	
 		 echo "<br>";
 		// echo '<label>Projekt: </label>';

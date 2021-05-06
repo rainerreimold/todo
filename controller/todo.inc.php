@@ -12,6 +12,8 @@ require_once './inc/global_config.inc.php';
 $_SESSION['title'] = 'Rezepte - Verwaltung von INgredenzien';
 $_SESSION['start'] = isset($_SESSION['start'])?$_SESSION['start']:false;
 
+require_once './class/Log.classes.php';
+require_once './class/LetzteAktivitaet.class.php';
 
 static $db;
 
@@ -336,13 +338,16 @@ CREATE TABLE `todo` (
 
  		  // getArtikelInitialId	
            
-          //die();
+         
           
 
-          header('location:../uebersicht');
+		  $oLAkt = LetzteAktivitaet();
+		  $oLAkt -> writeLetzteAktivitaet( "todo - eingetragen", $sql, 1, "Rainer", 1, "todo");	 
+			 die();
+         // header('location:../uebersicht');
 
 
-
+		  
 
 
 	}

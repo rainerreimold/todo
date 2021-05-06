@@ -71,6 +71,7 @@ $userid = 1; //!$_SESSION["user_id"]?1:$_SESSION["user_id"];
 <html lang="de-DE" prefix="og: http://ogp.me/ns#" class="no-js no-svg">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 
