@@ -9,13 +9,14 @@ $timeStart = microtime(true);
 require './inc/global_config.inc.php';
 require './inc/functions.inc.php';
 
-// function __autoload ($className) {
-    //echo $className;
-//	require_once './classes/'.$className.'.classes.php';
-//}
+ function __autoload ($className) {
+    echo $className;
+	require_once './class/'.$className.'.classes.php';
+	
+}
 
 
-//spl_autoload_register("__autoload");
+spl_autoload_register("__autoload");
 
 $controller = isset($_GET['controller'])?$_GET['controller']:'uebersicht';
 $action = isset($_GET['action'])?$_GET['action']:'';

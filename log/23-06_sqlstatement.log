@@ -1,0 +1,15 @@
+replace into todo set titel='LetzteAktivität in todo ', erklaerung = '&lt;p&gt;funktioniert nicht,&lt;br /&gt;
+Ich habe die Log Funktion mit eingebaut&lt;/p&gt;
+', ziel = '', wunsch = '',
+			 	initial_id=833, parent_id=833, angelegt=NOW(), user_id=1, status='unerledigt';
+Eintrag 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+update todo set tid_md5=md5(id) order by id desc Limit 1;;
+Eintrag 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+

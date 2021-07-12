@@ -1,0 +1,14 @@
+replace into todo set titel='Projekt Ereignis: Zuordnungen rausnehmen', erklaerung = '&lt;p&gt;&amp;nbsp;Zuordnungen rausnehmen&lt;/p&gt;
+', ziel = '', wunsch = '',
+			 	initial_id=0, parent_id=0, angelegt=NOW(), user_id=1, status='unerledigt';
+Eintrag 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+update todo set initial_id=id, tid_md5=md5(id) order by id desc Limit 1;;
+Eintrag 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+

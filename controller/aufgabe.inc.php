@@ -13,7 +13,7 @@ $_SESSION['title'] = 'Rezepte - Verwaltung von INgredenzien';
 $_SESSION['start'] = isset($_SESSION['start'])?$_SESSION['start']:false;
 
 require_once './class/Log.classes.php';
-require_once './class/LetzteAktivitaet.class.php';
+//require_once './class/LetzteAktivitaet.class.php';
 static $db;
 
 

@@ -1,0 +1,2 @@
+update todo set initial_id=id, tid_md5=md5(id) order by id desc Limit 1;;
+

@@ -46,8 +46,15 @@ function getProjekt( $pid = '0') {
 
 	try {
 		
-		$sql = "SELECT `projekt_id`, `erlaeuterung`, `name`, `kuerzel`   FROM `projekt` where loeschbar=0 and sichtbar=1 order by name asc";
-        
+		//$sql = "SELECT `projekt_id`, `erlaeuterung`, `name`, `kuerzel`   FROM `projekt` where loeschbar=0 and sichtbar=1 order by name asc";
+				$sql = "SELECT distinct `projekt_id`, `name`, `erlaeuterung`, `name`, `kuerzel`, `pid_md5`, `beginn`,`status`  
+ 					FROM `projekt` 
+ 					where 
+ 					projekt_id in (select max(projekt_id) from projekt group by initial_id)
+ 					and
+ 					loeschbar=0 and sichtbar=1 order by name asc";        
+
+
         $db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
         $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
@@ -173,6 +180,10 @@ function getProjekte() {
 	try {
 
 		$sql = "SELECT `projekt_id`,`pid_md5`,name FROM `projekt` WHERE sichtbar=1 and loeschbar=0";
+		
+
+
+
 
         $db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
         $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -9,7 +9,7 @@ session_start();
 
 
 require_once './inc/global_config.inc.php';
-$_SESSION['title'] = 'Rezepte - Verwaltung von INgredenzien';
+$_SESSION['title'] = 'Todo- Verwaltung von Projekten';
 $_SESSION['start'] = isset($_SESSION['start'])?$_SESSION['start']:false;
 
 
@@ -42,7 +42,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 		$db = $id;
 		if ($_SESSION['start']==false) {
     		$_SESSION['start']=true;
-			echo "<h1>Ingredenzien</h1>";
+			echo "<h1>Projekten</h1>";
 			echo "<h2>Ansatz?</h2>";
 
 			die();
