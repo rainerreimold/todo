@@ -9,8 +9,12 @@
 	- eintragen
 
 
- wieder lauffähig ab dem 17.07.2021
- Autor: Rainer 
+ wieder lauffähig ab dem 17.07.2021 (das ist doch Quatsch - das Teil kann nie wieder gelaufen sein)
+* Hinweis:	
+*
+*
+* Autor: Rainer Reimold * rainerreimold@gmx.de * 0151/28872748
+* Datum: 05.10.2021 * 
 
 /******************************************************************************************/
 
@@ -42,14 +46,16 @@
 		 $order = isset($_GET['order'])?$_GET['order']:'desc';*/
 		$gegenorder = $order=='desc'?'asc':'desc';
 
+		
 
 		$oFehler = new Fehler(1);
 		$alleFehler = array();
+		//die("bis zum Aufruf der Fehlerklasse!");
 
 		if(!isset($projektid)) {
 			//  Bitte wieder einkommentieren!
-			// echo "<br><h2>Projekt_id ist leer!</h2><br>";
-			$alleFehler = $oFehler->getJedeFehler( $von, $lim, $order );
+			echo "<br><h2>Projekt_id ist leer!</h2><br>";
+			$alleFehler = $oFehler->getJederFehler( $von, $lim, $order );
 		}
 		else {
 			$alleFehler =	$oFehler->getProjektFehler($projektid, $von, $lim, $order );
@@ -57,20 +63,21 @@
 
 		// Anzahl Schleifendurchläufe
 
-		if (sizeOf($alleFehler)<($lim*16)) $lim = sizeOf($alleFehler)/13;
+		if (!isset($alleFehler)) die('kein Ergebnis!');
+		  if (sizeOf($alleFehler)<($lim*16)) $lim = sizeOf($alleFehler)/13;
 
-		$zeile=1;
+	 	  $zeile=1;
 
-		//echo sizeOf($alleFehler)." ".$alleFehler[1];
+		  //echo sizeOf($alleFehler)." ".$alleFehler[1];
 
-		if (sizeOf($alleFehler)==0 ) {
+		  if (sizeOf($alleFehler)==0 ) {
 
 			echo 'keine Einträge gefunden.';
 			include('inc/footer.php');
 			die();
-		}
-		//echo "<ul>";
-		echo '<br /><a href="fehler/neu">neuen Eintrag erstellen</a><br />';
+		  }
+		  //echo "<ul>";
+		  echo '<br /><a href="fehler/neu">neuen Eintrag erstellen</a><br />';
 		echo '<table class="tabelleprojektuebersicht" cellspacing="0">'."\n";
 		echo '<tr>'."\n".'<th style="text-align:center;" colspan="2">';
 		if ($von > 1) {

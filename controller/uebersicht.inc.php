@@ -4,7 +4,7 @@ session_start();
 //require_once 'inc/classDBInformation.php';
 
 require_once './inc/global_config.inc.php';
-//require_once './class/Zaehler.class.php';
+require_once './class/Zaehler.classes.php';
 
 
 
@@ -74,7 +74,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	  echo '<div class="table">';
       echo '<div class="spalte" tyle="backcolor:darksalmon;">';
       echo '<h3>Aufgaben</h3>';
-	  echo '<a href="aufgabe/zeigeAlleOffenenAufgaben">zeige alle Aufgaben</a>';
+	  echo '<a href="aufgabe/zeigeOffeneAufgaben">zeige alle Aufgaben</a>';
       echo "<br>";
 	  echo '<a href="aufgabe/zeigeAlleAufgaben">zeige alle - auch gel&ouml;schte- Aufgaben</a>';
       echo "<br>";
@@ -88,7 +88,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 	  ***********************************************/
      
 	  echo "<br><h3>Fehler</h3>";
-	  echo '<a href="fehler/alle">zeige alle Fehler</a>';
+	  echo '<a href="fehler/alleFehler">zeige alle Fehler</a>';
 	  echo "<br>";	
 
       echo "<br><h3>L&ouml;sungen</h3>";

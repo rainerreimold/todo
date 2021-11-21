@@ -78,25 +78,40 @@ class Fehler
 	{
 		$oZeit = new Zeit();
 
-		$dbh = new DB_Mysql_Prod;
+		//$dbh = new DB_Mysql_Prod;
 		//$dbh = new DatenbankZugriff;
-		$query = 'Select * From fehler  Where fid_md5 = ::1';
-	
-		//$result = $dbh->prepare( $query )->execute( $id )->fetch_assoc();
-		$result = $dbh->fetch_assoc($sql);
-
-		$this->Id = $result['id'];
-		$this->Titel = $result['titel'];
-		$this->Erklaerung = $result['erklaerung'];
-		$this->Ziel = $result['ziel'];
-		$this->Wunsch = $result['wunsch'];
+		//id, titel, erklaerung, ziel, wunsch, angelegt 
+		$query = "Select *
+			From fehler Where fid_md5 = '".$id."'";
 		
-		$this->Angelegt = $oZeit->datumEinD($result['angelegt']);
+		print "<br>".$query."<br>";	
+
+
+		$db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+        $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+        $rueckgabe = $db->query($query);
+          
+		$result = $rueckgabe->fetchAll(PDO::FETCH_BOTH);
+		// Aha des Rätsels Lösung 
+
+		//echo "<br>".sizeOf($result)."<br>".$result[0]['id'];
+		//[0]; //
+		//foreach ($erg as $result) 
+		//{
+
+		$this->Id = $result[0]['id']; 
+		$this->Titel = $result[0]['titel'];
+		$this->Erklaerung = $result[0]['erklaerung'];
+		$this->Ziel = $result[0]['ziel'];
+		$this->Wunsch = $result[0]['wunsch'];
+		
+		$this->Angelegt = $oZeit->datumEinD($result[0]['angelegt']);
 	    
 		$wi=0;
 		$i=0;
 		$dat=0;
-		
+/*		
 		if ($this->Angelegt != "" )
 			{
 				$bestandteile = explode(" ",$dat[$i+5]);
@@ -120,19 +135,24 @@ class Fehler
 				}
 				$this->Angelegt = $difTage;
 			}
-		$this->Erledigt = $result['erledigt'];
-		$this->Prioritaet = $result['prioritaet'];
-		$this->Geaendert = $result['geaendert'];
-		$this->Status = $result['status'];
-		$this->UserId = $result['user_id'];
-		$this->ProjektId = $result['projekt_id'];
-		$this->Geloescht = $result['geloescht'];
-		$this->Url = $result['url'];
-		$this->Loesungsweg = $result['loesungsweg'];
-		$this->Hinweis = $result['hinweis'];
-		$this->Sichtbar = $result['sichtbar'];
-		$this->InitialId = $result['initial_id'];
-		$this->ParentId = $result['parent_id'];
+*/
+		$this->Erledigt = $result[0]['erledigt'];
+		$this->Prioritaet = $result[0]['prioritaet'];
+		$this->Geaendert = $result[0]['geaendert'];
+		$this->Status = $result[0]['status'];
+		$this->UserId = $result[0]['user_id'];
+		$this->ProjektId = $result[0]['projekt_id'];
+		$this->Geloescht = $result[0]['geloescht'];
+		$this->Url = $result[0]['url'];
+		$this->Loesungsweg = $result[0]['loesungsweg'];
+		$this->Hinweis = $result[0]['hinweis'];
+		$this->Sichtbar = $result[0]['sichtbar'];
+		$this->InitialId = $result[0]['initial_id'];
+		$this->ParentId = $result[0]['parent_id'];
+		
+		// Prüfung, ob im Objekt Inhalt vorhanden ist
+		//echo "<br>".$this->Erklaerung."<br>";
+		//}
 		return $this;
 	}
 
@@ -188,19 +208,32 @@ NULL ,  '',  '2010-06-16 22:46:13',  'qwe',  '0000-00-00 00:00:00',  '2010-06-16
 	
 	*/
 
+
+ /*****
+  Im Moment noch fehlerhaft
+
+
+
+*/
+
 	//$kurzbeschreibung, $fehler, $ziel, $wunsch, $prio, $status, $userid, $projekt
-	public function addFehler(  $Titel, $Erklaerung, $Prioritaet, $Status, $UserId, $ProjektId, $Url, $InitialId, $ParentId )	{
-		$dbh = new DB_Mysql_Prod;
+	public function addFehler(  $sTitel, $sErklaerung, $sPrioritaet, $sStatus, $sUserId, $sProjektId, $sUrl, $InitialId, $ParentId )	{
+		
+
+		$db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+        $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 		$angelegt = date("Y-m-d G:i:s", time());
 		
 		$datum = date("Y-m-d H:i:s", time());//("y-m-d G:i:s", time())
 		
-		
-	//	
-		$query = 'INSERT INTO fehler (  `titel`, `erklaerung`, `prioritaet`,  `status`, `user_id`, `projekt_id`,  `url`  ) VALUES ( ::1, ::2, ::3, ::4, ::I5, ::I6, ::7 ) ';
-		
-		$dbh->prepare($query)->execute(  $Titel, $Erklaerung,   $Prioritaet,  $Status, $UserId, $ProjektId, $Url  );
-	//	
+		$query = 'INSERT INTO fehler (  `titel`, `erklaerung`, `prioritaet`,  `status`, 
+		`user_id`, `projekt_id`,  `url`  ) 
+		VALUES ( $sTitel, $sErklaerung,   $sPrioritaet,  $sStatus, $sUserId, $sProjektId, $sUrl ) ';
+
+		$rueckgabe = $db->query($query);
+          
+		$result = $rueckgabe->fetchAll(PDO::FETCH_BOTH);
 		
 		if (DEBUG) {
 			echo $UserId;
@@ -221,9 +254,9 @@ NULL ,  '',  '2010-06-16 22:46:13',  'qwe',  '0000-00-00 00:00:00',  '2010-06-16
 		
 		// get LastinsertID
 		
-		
+		die("STOP");
 		$query = 'Select Max(id) From fehler';
-		$result = $dbh->execute($query); 
+		$result = $db->execute($query); 
 		$data = $result->fetch_row();
 		$lastid = $data[0];
 		
@@ -561,6 +594,10 @@ public function getAlleFehler7Tage ( $von=0, $lim=30, $order=asc )
 	}
 	
 	
+	/* Der Datenbankzugriff muss noch geändert werden 
+		Rainer 08.10.21
+	*/
+
 	public function getAlleFehlerErledigt ( $von=0, $lim=30, $order=asc )
 	{
 		$oZeit = new Zeit();
@@ -589,6 +626,13 @@ public function getAlleFehler7Tage ( $von=0, $lim=30, $order=asc )
 		$dbh->
 		prepare( $query )->
 		execute( $order,intval($von),intval($lim),$datum  );
+/* Änderung noch nicht eingebaut */
+		$db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+        $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $rueckgabe = $db->query($query);         
+		$ergebnis = $rueckgabe->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 	 //$rs = new DB_Result($dbh->execute($query));
 	 $i=0;
@@ -666,11 +710,15 @@ public function getAlleFehler7Tage ( $von=0, $lim=30, $order=asc )
 		return $dat;
 	}
 	
-	public function getJedeFehler ( $von=0, $lim=30, $order=asc )
+	/*
+		Funktion auf neues DB-Schema umstellen
+
+	*/
+	public function getJederFehler ( $von=0, $lim=30, $order=asc )
 	{
-		$oZeit = new Zeit();
+		//$oZeit = new Zeit();
 		$dat = array();
-		$dbh = new DB_Mysql_Prod;
+		//$dbh = new DB_Mysql_Prod;
 
 
 		 $query = 'Select Distinct f.id,f.titel,f.erklaerung,f.ziel,
@@ -682,11 +730,20 @@ public function getAlleFehler7Tage ( $von=0, $lim=30, $order=asc )
 		
 		
 		
-	    if (DEBUG) echo "<br />".$query."<br />";
+	    //if (DEBUG) 
+  		echo "<br />".$query."<br />";
 
 
 		
-		return $dbh->fetch_assoc($query);
+		//return $dbh->fetch_assoc($query);
+
+		$db = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME , DB_USER , DB_PASS );
+        $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+        $rueckgabe = $db->query($query);
+          
+		return $rueckgabe->fetchAll(PDO::FETCH_ASSOC);
+
 
 	}
 	

@@ -1,0 +1,466 @@
+body { /* font-size:16px; */
+	font: 14px/22px Arial; /* Tahoma */
+	/* background: #fff url(../images/newsbox_bg.gif) repeat-x top left; */
+	background: #f9f9fa url(../images/top.gif) repeat-x top left;
+	letter-spacing: 0.08em;
+	padding: 2em auto 0 auto;
+	margin: 3em auto 0 auto;
+	text-align: center;
+}
+
+#container { /*
+	 position:absolute; */
+	padding: 10px auto 0 auto;
+	text-align: center;
+}
+
+h1 {
+	margin: 10px auto 10px auto;
+}
+
+hr {
+	height: 0;
+	margin: 2em 0;
+	border: none;
+	border-top: 1px solid #ccb
+}
+
+.erhebung {
+	text-align: center;
+	padding: 10px auto 10px auto;
+	/*padding-right: 70px;*/
+	margin: 10px auto 10px auto;
+}
+
+.erhebung input { /*
+	margin-right: 30px;
+	margin-bottom: 4px; */
+	margin: 4px auto 4px auto;
+	width: 200px;
+	background-color: #f3f3f3;
+	border: 1px #e0e0e0 solid;
+}
+
+.erhebung .absenden {
+	padding: 5px;
+	margin-top: 10px;
+	margin-right: 30px;
+	width: 90px;
+}
+
+.erhebung fieldset {
+	background: #fff url(../images/div3.jpg) repeat-x bottom left;
+	text-align: right;
+	padding: 5px;
+	padding-top: 20px;
+	padding-right: 40px;
+	
+	min-height: 240px;
+	margin: 30px auto 20px auto;
+	width: 400px;
+}
+
+legend {
+	background-color: green;
+	color: white;
+}
+
+input {
+	border: 1px #999999 dotted;
+	border-bottom: 1px #666666 solid;
+	border-right: 1px #666666 solid;
+	background-color: #e3e6e3;
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #655940;
+}
+
+textarea {
+	border: 1px #999999 dotted;
+	border-bottom: 1px #666666 solid;
+	border-right: 1px #666666 solid;
+	background-color: #e3e6e3;
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #655940;
+	width: 500px;
+	height: 400px;
+}
+
+h1 {
+	text-align: center;
+	font-family: Tahoma;
+	font-size: 16px;
+	color: #655940;
+}
+
+h4 {
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #655940;
+}
+
+.uebersicht {
+	/* background:#fff url(../images/div3.jpg) repeat-x bottom left;
+	*/
+	background: #fff url(../images/Hintergrund1200x1024.jpg) no-repeat bottom left;
+	font-size: 1.1em;
+	margin: 0 auto 0 auto;
+	padding: 7px;
+	margin: 0 auto 0 auto;
+	border: 1px solid #aaaaba;
+	left: 15px;
+	top: 50px;
+	-moz-border-radius:25px;
+	-khtml-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius:25px;
+}
+
+/* Fehlerübersicht */
+.tabelleprojektuebersicht {
+	font-size: 1.1em;
+	margin: 0 auto 0 auto;
+	border: 1px #666666 solid;
+	padding: 4px;
+	margin: 0 auto 0 auto;
+}
+
+.odd {
+	background: #e7e7ee /*#dae3dc;*/
+}
+
+.even {
+	background: #fcfcfc;
+}
+
+.tabletdnumber {
+	border-bottom: 0px #666666 solid;
+	font-size: 1.0em;
+	width: 20px;
+}
+
+.fehler {
+	font-size: 0.8em;
+}
+
+.tabletd {
+	border-bottom: 0px #ddd solid;
+	font-size: 1.1em;
+	min-width: 310px;
+}
+
+.tabletd_fehler {
+	width: 20%;
+	font-size: 0.90em;
+	border-bottom: 0px #ddd solid;
+}
+
+td {
+	text-align: left;
+	vertical-align: top;
+	font-family: Arial;
+	font-weight: bold;
+	/* font-size:12px; */
+	color: #655940;
+	padding: 10px;
+}
+
+form {
+	margin: 0px;
+	text-align: right;
+}
+
+#uglyform {
+	width: 500px;
+	margin: 0px auto auto auto;
+}
+
+a {
+	text-decoration: none;
+	/* color:#B85F00; */
+	color: #000081;
+}
+
+a.n {
+	text-decoration: none;
+	color: #655940;
+}
+
+.brown {
+	color: #B85F00;
+}
+
+.light {
+	color: #6B5D41;
+}
+
+a.light {
+	color: #6B5D41;
+	text-decoration: underline;
+}
+
+a.ll {
+	color: #8A774F;
+	text-decoration: underline;
+}
+
+.neuerbericht {
+	border: 1px #333333 solid;
+	padding: 2px;
+}
+
+.neuerbericht:hover {
+	color: #555533;
+	text-decoration: none;
+	background-color: #DFD7B6;
+}
+
+.green {
+	color: #6D7811;
+}
+
+a.red {
+	color: #a80000;
+}
+
+a.copy {
+	color: #828061;
+	text-decoration: none;
+}
+
+.ecard {
+	border: 0px;
+	border-bottom: 0px #333333 dashed;
+	font-family: Tahoma;
+	font-size: 18px;
+	color: #DD5940;
+	vertical-align: baseline;
+}
+
+.eBeschreibung {
+	border: 0px;
+	border-top: 1px #999999 dotted;
+	font-family: Tahoma;
+	font-size: 10px;
+	color: #333333;
+	vertical-align: top;
+}
+
+/*   #EBDEB4; F3EBD2*/
+.content {
+	font-size: 12px;
+	letter-spacing: 0.05em;
+	border: 1px #EBDEB4 solid;
+	background-color: #F5F0E1;
+	padding-left: 7px;
+	padding-top: 1px;
+	padding-right: 7px;
+	padding-bottom: 12px;
+	width: 484px;
+	height: 200px;
+}
+
+.content2 {
+	font-size: 12px;
+	letter-spacing: 0.05em;
+	border: 1px #EBDEB4 solid;
+	background-color: #F0E7C4;
+	padding-left: 7px;
+	padding-top: 1px;
+	padding-right: 7px;
+	padding-bottom: 12px;
+	width: 484px;
+}
+
+.but {
+	border: 1px #333333 solid;
+	height: 14px;
+	font-family: Tahoma;
+	font-size: 10px;
+	background-color: #CCFFCC;
+}
+
+.newsletter {
+	padding-top: 10px;
+	padding-left: 0px;
+	width: 118px;
+	height: 88px;
+	border: 1px solid rgb(0, 0, 0);
+	background-image:
+		url('http://www.terracus.de/images/banner/newsletter-box/huetten-118x88.jpg');
+	text-align: right;
+}
+
+.parseTime {
+	clear: both;
+	margin-bottom: 10px;
+	font-size: 0.7em;
+	color: silver;
+}
+
+.hinweisbox {
+	background-color: white;
+	border: green 2px solid;
+	padding: 5px;
+	width: 80%;
+	margin: 4 auto 4 auto;
+}
+
+.version {
+	font-size: 0.7em;
+	font-weight: big;
+	letter-spacing: 0.05em;
+	color: red;
+	border-bottom: 0px #ddd solid;
+}
+
+.klein {
+	font-size: 0.85em;
+	letter-spacing: 0.15em;
+	padding-right: 5px;
+}
+
+.fertig,.fertig a {
+	color: lightgreen;
+}
+
+.unfertig,.unfertig a {
+	color: #a80000;
+}
+
+.fertig a:hover,.unfertig a:hover {
+	color: black;
+}
+
+.geplant,.geplant a {
+	color: #e5caca;
+}
+
+.formbox {
+	margin: 4 auto 4 auto;
+	text-align: center;
+	padding: 5px;
+}
+
+.formbox_ta {
+	font-size: 1.1em;
+	width: 500px;
+	border: 1px silver solid;
+	padding: 3px;
+}
+
+.formbox_tasmall {
+	height: 250px;
+	font-size: 1.1em;
+	width: 500px;
+	border: 1px silver solid;
+	padding: 3px;
+}
+
+.formbox_taentwurf {
+	height: 550px;
+	font-size: 1.1em;
+	width: 500px;
+	border: 1px silver solid;
+	padding: 3px;
+}
+
+.formbox_tadb {
+	font-family: courier;
+	height: 550px;
+	font-size: 0.9em;
+	width: 500px;
+	border: 3px green solid;
+	padding: 3px;
+}
+
+.formbox_tacode {
+	font-family: courier;
+	height: 550px;
+	font-size: 1.0em;
+	width: 500px;
+	border: 3px red solid;
+	padding: 3px;
+}
+
+.formbox_tf {
+	font-size: 1.1em;
+	width: 500px;
+	border: 1px silver solid;
+}
+
+.fontchange {
+	margin-right: 10px;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	font-family: Verdana;
+	font-size: 0.8em;
+}
+
+.resetfont,.biggerfont,.smallerfont {
+	background: #fdfdfd url(../img/verlauf3.gif) repeat-x bottom left;
+	border: 1px #aeaecf dotted;
+	font-family: Verdana;
+	font-size: 10px;
+}
+
+/**
+
+Ausgabe der Dump Fehlerhinweise
+
+*/
+.mittig {
+width:100%;
+text-align:center;
+}
+
+.dumpbox {
+	background-color: lightblue;
+	border: grey 6px solid;
+	padding: 5px;
+	color: black;
+	width: 65%;
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	margin: 4px auto 4px 200px;
+}
+
+
+/**
+
+Ausgabe der Dump Fehlerhinweise
+
+*/ 
+
+.fehlerbox {
+	background-color: red;
+	border: black 6px solid;
+	padding: 5px;
+	color: white;
+	width: 65%;
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	margin: 4px auto 4px auto;
+}
+
+.projektform {
+	
+	background-color: #dde;
+	border: black 6px solid;
+	margin: auto 200px auto 200px;
+	padding: 10px;
+	font-size: 1.5em;
+	-moz-border-radius:25px;
+	-khtml-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius:25px;
+	}
+.projektform input,textarea {
+	 margin: 5px;
+	font-size: 1.5em;
+	
+	}

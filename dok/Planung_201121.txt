@@ -1,0 +1,12 @@
+todo - Planung
+aus der todo-Liste soll eine Terminplanung werden.
+
+
+a) konkreter Termin für die Erledigung 
+
+b) thematische Zuordnung nicht nur je Projekt, sondern auch 
+   
+	- Arbeit 
+	- Persönlich, 
+	- Familie (Urlaub/ Ausflug/ Arztermin)
+	

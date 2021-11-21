@@ -1,8 +1,4 @@
-
-
 <?php
-
-
 
 
 session_start();
@@ -14,9 +10,6 @@ $_SESSION['start'] = isset($_SESSION['start'])?$_SESSION['start']:false;
 
 
 static $db;
-
-
-
 
 function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 
@@ -62,13 +55,13 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 
   		try {
 		
-     /*   
+     /*  */ 
         $sql = "SELECT `laufendenummer`,`bezeichnung`,`beschreibung`,`sachstand`,`termin`,`verantwortlich`,`beteiligte_mitarbeiter`,
 			    `risiko`,`kategorie`,`angelegt`,`status`,`prioritaet` 
 				  FROM `aktivitaetenliste` 
 				  WHERE `aktivitaet_id` in (select max(`aktivitaet_id`) from `aktivitaetenliste` group by initial_id) 
 				  and `pid_md5` = $id;";
-    */
+    
 
 		if (DEBUG) echo "<br>".$sql."<br>";
        

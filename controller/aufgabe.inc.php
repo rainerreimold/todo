@@ -13,7 +13,7 @@ $_SESSION['title'] = 'Rezepte - Verwaltung von INgredenzien';
 $_SESSION['start'] = isset($_SESSION['start'])?$_SESSION['start']:false;
 
 require_once './class/Log.classes.php';
-//require_once './class/LetzteAktivitaet.class.php';
+require_once './class/LetzteAktivitaet.classes.php';
 static $db;
 
 
@@ -74,10 +74,17 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 		//  DATE_FORMAT (angelegt, '%e.%m.%y')
 		//  DATE_FORMAT (angelegt, '%e.%m.%y') as angelegt
  
-        $sql = "SELECT `tid_md5`, `titel`, `erklaerung`, `ziel`, `wunsch`, DATE_FORMAT (angelegt, '%e.%m.%y') as formangelegt, angelegt, sichtbar, geloescht, prioritaet, status, aktiv FROM `todo` where id
+       /* 
+		$sql = "SELECT `tid_md5`, `titel`, `erklaerung`, `ziel`, `wunsch`, DATE_FORMAT (angelegt, '%e.%m.%y') as formangelegt, angelegt, sichtbar, geloescht, prioritaet, status, aktiv FROM `todo` where id
 		in (select max(id) From todo group by initial_id ) 
 		and status != 'erledigt' order by angelegt desc Limit ".$von. ", ". $lim;
+		*/
 		
+		$sql = "SELECT `tid_md5`, `titel`, `erklaerung`, `ziel`, `wunsch`, DATE_FORMAT (angelegt, '%e.%m.%y') as formangelegt, angelegt, sichtbar, geloescht, prioritaet, status, aktiv FROM `todo` where id
+		in (select max(id) From todo group by initial_id ) 
+		order by angelegt desc Limit ".$von. ", ". $lim;
+		
+
 		if (DEBUG) echo "<br>".$sql."<br>";
        
 	 
@@ -206,7 +213,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
 		include 'inc/footer.php';
 	}
 
-	else if ( $action == 'zeigeAlleOffenenAufgaben') {
+	else if ( $action == 'zeigeOffeneAufgaben') {
       
 	 	include 'inc/header.php';
 	
@@ -252,7 +259,7 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
             <!--<td style=\"background:darkgrey;a color:orange;width:350px;\" class=\"odd\">Beschreibung</td>-->
 		    <td style=\"background:darkgrey;a color:orange;width:80px;\" class=\"odd\">Bearbeit</td>
 			<td style=\"background:darkgrey;a color:orange;width:80px;\" class=\"odd\">Angelegt</td>
-			<td style=\"background:darkgrey;a color:orange;width:80px;\" class=\"odd\">Priorit&auml;</td>
+			<td style=\"background:darkgrey;a color:orange;width:80px;\" class=\"odd\">Priorit&auml;t</td>
 			<td style=\"background:darkgrey;a color:orange;width:80px;\" class=\"odd\">Status</td>
 			<td style=\"background:darkgrey;a color:orange;width:20px;\" class=\"odd\">erledigt</td>
 			<td style=\"background:darkgrey;a color:orange;width:20px;\" class=\"odd\">Sicht</td>
@@ -709,11 +716,11 @@ function doAction( $action = '', $id = '', $von=0, $lim=0, $order='asc' ) {
   
     /*****
 		
- 	hier sollten wir wohl mal dirngend aktiv werden!	
+ 	hier sollten wir wohl mal dringend aktiv werden!	
 	27.05.21
 
 
-	Das ANlegen von Projekten sollte wesentlich vereinfacht werden. 
+	Das Anlegen von Projekten sollte wesentlich vereinfacht werden. 
 	Überdies muss ein Projekt auch deaktiviert und reaktivierbar sein.
 
 
@@ -1020,7 +1027,7 @@ in die LogDatei eingetragen.", 1, "Rainer", 1, "todo");
 		//echo "noch zu implementieren";
 		try {
 		  // einfacher Switch	
-          $sql = "update `todo` Set `erledigt`=NOW(), aktiv=0  where `tid_md5`='".$id."';";
+          $sql = "update `todo` Set `status`='erledigt', `erledigt`=NOW(), aktiv=0  where `tid_md5`='".$id."';";
 
          // print $sql."<br>";
 
@@ -1035,7 +1042,7 @@ in die LogDatei eingetragen.", 1, "Rainer", 1, "todo");
               print "<br>".$e->getMessage();
           }
          //die();
-          header('location:../zeigeAlleAufgaben') ;
+          header('location:../zeigeOffeneAufgaben') ;
 
 	}
 
